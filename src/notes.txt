@@ -1,0 +1,36 @@
+How to build the context api and leverage it's advantages into our project.
+
+Context API is used to declare sort of global context from where components can directly access data stored inside the context. What was the need of context API?? Let's say we have 4-5 nested components, and they all require one variable say user's name to display in all of them. And the user's name is fetched from database in app.jsx. So what we have to do is to pass it as props from app.jsx to it's imeediate child component and from there to other immediate child component. So there is this sort of chaining which can get really complex in bigger projects. 
+
+So to avoid this props chaining, we use Context API so we can declare those variables or functions which are frequently needed.
+And by just using the useContext hook, we can access those variables or functions inside any of the component without passing them as props.
+
+--> Steps:
+1. Create a context and pass on the data which we want to provide globally so that all components can access it.
+2. Now create a context provider which will wrap up all the child components which can have the access to this context.
+3. And then simply call useContext(context) and use that data or functions anywhere you want.
+
+//Creating the context:
+const userContext = createContext({
+    name: "",
+    age: 10,
+} , const getAge = () => {} , const getName = () => {});
+
+So now we have one object and two functions which are set inside our context.
+
+//Custom hook creation so we should not have to call the useContext(context) again and again:
+const useUserInfo = () => {
+    return useContext(context);
+}
+
+//At last providing with the provider so we can wrap it around child components:
+const userContextProvider = UserContext.provider
+
+Now you are all set to go, use wherever you like.
+
+NOTE: In the component which we are wrapping child components inside the userContextProvider, we should give the implementation of those methods and those implementations should have the same name as declaration.
+Then pass the values like:
+<userContextProvider value = {getName , getAge , userObj}>
+</userContextProvider>
+
+NOTE: We can also use multiple contests within our react application if our project requires to do so.
